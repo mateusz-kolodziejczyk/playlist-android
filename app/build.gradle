@@ -2,6 +2,10 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
 }
+// Load in properties file that stores spotify api keys
+Properties localProperties = new Properties()
+
+localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
 
 android {
     compileSdk 31
@@ -13,6 +17,8 @@ android {
         versionCode 1
         versionName "1.0"
 
+        buildConfigField "String", "SPOTIFY_CLIENT_ID",localProperties['spotifyClientID']
+        buildConfigField "String", "SPOTIFY_CLIENT_SECRET",localProperties['spotifyClientSecret']
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 
