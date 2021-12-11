@@ -4,15 +4,21 @@ import android.util.Base64
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.StringRequest
+import org.json.JSONObject
+import org.mk.playlist.main.MainApp
 import timber.log.Timber
 
-fun createTokenRequest(clientID: String, clientSecret: String) : StringRequest{
+fun createTokenRequest(clientID: String, clientSecret: String, app: MainApp) : StringRequest{
     val APIRequestURL = "https://accounts.spotify.com/api/token"
     return object : StringRequest(
         Method.POST, APIRequestURL,
         Response.Listener { response ->
-            //iVolley!!.onResponse(response.toString())
-            Timber.i("Got Result $response")
+            // Turn the response into a json object
+            val jsonObject = JSONObject(response)
+            // Access the access token and store it.
+            Timber.i("Token is: ${jsonObject.getString("access_token")}")
+            app.accessToken = jsonObject.getString("access_token")
+
         }, Response.ErrorListener { Timber.i("OOPS") }) {
 
         override fun getBodyContentType(): String {
