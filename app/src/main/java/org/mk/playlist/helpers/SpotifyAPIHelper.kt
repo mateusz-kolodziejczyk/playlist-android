@@ -7,7 +7,9 @@ import com.android.volley.toolbox.StringRequest
 import org.json.JSONObject
 import org.mk.playlist.main.MainApp
 import timber.log.Timber
+import timber.log.Timber.i
 
+// A lot of the api code is from https://stackoverflow.com/questions/65509624/unable-to-obtain-a-spotify-access-token-by-creating-a-volley-post-request-in-kot
 fun createTokenRequest(clientID: String, clientSecret: String, app: MainApp) : StringRequest{
     val APIRequestURL = "https://accounts.spotify.com/api/token"
     return object : StringRequest(
@@ -45,3 +47,51 @@ fun createTokenRequest(clientID: String, clientSecret: String, app: MainApp) : S
         }
     }
 }
+
+fun getArtistByID(artistID: String, accessToken: String) : StringRequest{
+    val APIRequestURL = "https://api.spotify.com/v1/artists/$artistID"
+    return object : StringRequest(
+        Method.GET, APIRequestURL,
+        Response.Listener { response ->
+            // Turn the response into a json object
+            val artistJSON = JSONObject(response)
+            Timber.i(artistJSON.getString("name"))
+        }, Response.ErrorListener { Timber.i("OOPS") }) {
+
+        override fun getBodyContentType(): String {
+            return "application/json"
+        }
+
+        @Throws(AuthFailureError::class)
+        override fun getHeaders(): Map<String, String> {
+            // Add access token to header
+            val headers: MutableMap<String, String> = HashMap()
+            headers["Authorization"] = "Bearer $accessToken" // Header authorization parameter
+            return headers
+        }
+    }
+}
+
+fun getArtistTopTracks(artistID: String, accessToken: String) : StringRequest{
+    val APIRequestURL = "https://api.spotify.com/v1/artists/$artistID/top-tracks?country=IE"
+    return object : StringRequest(
+        Method.GET, APIRequestURL,
+        Response.Listener { response ->
+            // Turn the response into a json object
+            val topTracksJSON = JSONObject(response)
+        }, Response.ErrorListener { Timber.i("OOPS") }) {
+
+        override fun getBodyContentType(): String {
+            return "application/json"
+        }
+
+        @Throws(AuthFailureError::class)
+        override fun getHeaders(): Map<String, String> {
+            // Add access token to header
+            val headers: MutableMap<String, String> = HashMap()
+            headers["Authorization"] = "Bearer $accessToken" // Header authorization parameter
+            return headers
+        }
+    }
+}
+

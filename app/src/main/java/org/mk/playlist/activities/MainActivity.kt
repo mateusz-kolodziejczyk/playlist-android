@@ -12,12 +12,13 @@ import org.mk.playlist.BuildConfig
 import org.mk.playlist.R
 import org.mk.playlist.databinding.ActivityMainBinding
 import org.mk.playlist.helpers.createTokenRequest
+import org.mk.playlist.helpers.getArtistByID
+import org.mk.playlist.helpers.getArtistTopTracks
 import org.mk.playlist.main.MainApp
 import timber.log.Timber
 import timber.log.Timber.i
 
 class MainActivity : AppCompatActivity() {
-    // A lot of the api code is from https://stackoverflow.com/questions/65509624/unable-to-obtain-a-spotify-access-token-by-creating-a-volley-post-request-in-kot
     private val clientID = BuildConfig.SPOTIFY_CLIENT_ID
     private val clientSecret = BuildConfig.SPOTIFY_CLIENT_SECRET
     private lateinit var app: MainApp
@@ -31,10 +32,9 @@ class MainActivity : AppCompatActivity() {
         app = application as MainApp
         val postRequest = createTokenRequest(clientID, clientSecret, app)
         queue?.add(postRequest)
-
         binding.getToken.setOnClickListener() {
-            Snackbar.make(it,app.accessToken, Snackbar.LENGTH_LONG)
-                .show()
+            val getTopTracksRequest = getArtistTopTracks("6PfSUFtkMVoDkx4MQkzOi3", app.accessToken)
+            queue?.add(getTopTracksRequest)
         }
     }
 
