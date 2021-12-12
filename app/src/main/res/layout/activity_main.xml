@@ -22,7 +22,7 @@
                     android:background="@color/black"
                     android:paddingBottom="8dp"
                     android:paddingTop="8dp"
-                    android:text="@string/token_button"
+                    android:text="@string/button_get_top_tracks"
                     android:textColor="@color/white"
                     android:textSize="16sp"/>
             </LinearLayout>

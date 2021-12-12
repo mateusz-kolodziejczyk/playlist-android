@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">Playlist</string>
-    <string name="token_button">Get Token</string>
+    <string name="button_get_top_tracks">Get Top Tracks</string>
 </resources>

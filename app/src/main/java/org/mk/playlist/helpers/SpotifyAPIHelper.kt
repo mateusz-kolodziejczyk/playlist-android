@@ -3,11 +3,17 @@ package org.mk.playlist.helpers
 import android.util.Base64
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import org.json.JSONObject
 import org.mk.playlist.main.MainApp
 import timber.log.Timber
 import timber.log.Timber.i
+import org.json.JSONException
+import org.mk.playlist.models.data_stores.TrackStore
+import org.wit.playlistapplication.models.TrackModel
+
 
 // A lot of the api code is from https://stackoverflow.com/questions/65509624/unable-to-obtain-a-spotify-access-token-by-creating-a-volley-post-request-in-kot
 fun createTokenRequest(clientID: String, clientSecret: String, app: MainApp) : StringRequest{
@@ -72,14 +78,27 @@ fun getArtistByID(artistID: String, accessToken: String) : StringRequest{
     }
 }
 
-fun getArtistTopTracks(artistID: String, accessToken: String) : StringRequest{
+fun getArtistTopTracks(artistID: String, accessToken: String, trackStore: TrackStore) : JsonObjectRequest{
     val APIRequestURL = "https://api.spotify.com/v1/artists/$artistID/top-tracks?country=IE"
-    return object : StringRequest(
-        Method.GET, APIRequestURL,
-        Response.Listener { response ->
-            // Turn the response into a json object
-            val topTracksJSON = JSONObject(response)
-        }, Response.ErrorListener { Timber.i("OOPS") }) {
+    return object : JsonObjectRequest(
+        Method.GET, APIRequestURL, null,
+        Response.Listener{ response ->
+            // Process the JSON
+            try {
+                val tracks = response.getJSONArray("tracks")
+                // Loop through the array elements
+                for (i in 0 until tracks.length()) {
+                    // Get current json object
+                    val track = tracks.getJSONObject(i)
+                    val trackID = track.getString("id")
+                    val trackName = track.getString("name")
+
+                    trackStore.add(TrackModel(trackID, trackName))
+                }
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }, Response.ErrorListener { e -> i(e) }) {
 
         override fun getBodyContentType(): String {
             return "application/json"

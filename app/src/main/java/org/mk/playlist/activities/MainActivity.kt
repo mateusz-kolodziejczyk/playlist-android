@@ -33,8 +33,11 @@ class MainActivity : AppCompatActivity() {
         val postRequest = createTokenRequest(clientID, clientSecret, app)
         queue?.add(postRequest)
         binding.getToken.setOnClickListener() {
-            val getTopTracksRequest = getArtistTopTracks("6PfSUFtkMVoDkx4MQkzOi3", app.accessToken)
+            val getTopTracksRequest = getArtistTopTracks("6PfSUFtkMVoDkx4MQkzOi3", app.accessToken, app.tracks)
             queue?.add(getTopTracksRequest)
+            for(track in app.tracks.findAll()){
+                i("$track")
+            }
         }
     }
 
