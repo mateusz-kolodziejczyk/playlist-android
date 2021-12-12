@@ -3,7 +3,6 @@ package org.mk.playlist.helpers
 import android.util.Base64
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
-import com.android.volley.toolbox.JsonArrayRequest
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import org.json.JSONObject
@@ -93,7 +92,10 @@ fun getArtistTopTracks(artistID: String, accessToken: String, trackStore: TrackS
                     val trackID = track.getString("id")
                     val trackName = track.getString("name")
 
-                    trackStore.add(TrackModel(trackID, trackName))
+                    val artistList = track.getJSONArray("artists")
+                    val artistName = artistList.getJSONObject(0).getString("name")
+
+                    trackStore.add(TrackModel(id=trackID, name=trackName, artistName=artistName))
                 }
             } catch (e: JSONException) {
                 e.printStackTrace()
