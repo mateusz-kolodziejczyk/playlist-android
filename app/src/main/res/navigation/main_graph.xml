@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/track_list_graph"
-    app:startDestination="@id/mainMenu">
+    app:startDestination="@id/mainMenuFragment">
 
     <fragment
         android:id="@+id/trackListFragment"
         android:name="org.mk.playlist.fragments.TrackListFragment"
-        android:label="fragment_track_list"
-        tools:layout="@layout/fragment_track_list" >
+        android:label="Track List"
+        tools:layout="@layout/fragment_track_list">
         <action
             android:id="@+id/action_viewTrackDetails"
             app:destination="@id/trackDetailFragment" />
@@ -17,19 +17,31 @@
     <fragment
         android:id="@+id/trackDetailFragment"
         android:name="org.mk.playlist.fragments.TrackDetailFragment"
-        android:label="fragment_track_detail"
+        android:label="Track Details"
         tools:layout="@layout/fragment_track_detail">
+        <argument
+            android:name="track"
+            app:argType="org.mk.playlist.models.TrackModel" />
+        <action
+            android:id="@+id/action_updateTrack"
+            app:destination="@id/trackUpdateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trackUpdateFragment"
+        android:name="org.mk.playlist.fragments.TrackUpdateFragment"
+        android:label="Update Track"
+        tools:layout="@layout/fragment_track_update">
         <argument
             android:name="track"
             app:argType="org.mk.playlist.models.TrackModel" />
     </fragment>
     <fragment
-        android:id="@+id/mainMenu"
-        android:name="org.mk.playlist.fragments.MainMenu"
-        android:label="fragment_main_menu"
-        tools:layout="@layout/fragment_main_menu" >
+        android:id="@+id/mainMenuFragment"
+        android:name="org.mk.playlist.fragments.MainMenuFragment"
+        android:label="Main Menu"
+        tools:layout="@layout/fragment_main_menu">
         <action
-            android:id="@+id/action_mainMenu_to_trackListFragment"
+            android:id="@+id/action_mainMenu_trackList"
             app:destination="@id/trackListFragment" />
     </fragment>
 </navigation>

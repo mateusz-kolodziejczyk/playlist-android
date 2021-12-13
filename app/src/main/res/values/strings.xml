@@ -5,4 +5,7 @@
     <string name="menu_item_add">Add Item</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="bottom_nav_item1">Playlists</string>
+    <string name="bottom_nav_item2">Artists</string>
+    <string name="bottom_nav_item3">Tracks</string>
 </resources>

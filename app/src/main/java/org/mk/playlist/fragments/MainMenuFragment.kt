@@ -1,6 +1,5 @@
 package org.mk.playlist.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,9 +10,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import org.mk.playlist.R
-import org.mk.playlist.activities.TrackListActivity
 import org.mk.playlist.databinding.FragmentMainMenuBinding
-import org.mk.playlist.databinding.FragmentTrackDetailBinding
 import org.mk.playlist.helpers.getArtistTopTracks
 import org.mk.playlist.main.MainApp
 import timber.log.Timber
@@ -25,10 +22,10 @@ private const val ARG_PARAM2 = "param2"
 
 /**
  * A simple [Fragment] subclass.
- * Use the [MainMenu.newInstance] factory method to
+ * Use the [MainMenuFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class MainMenu : Fragment() {
+class MainMenuFragment : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -69,7 +66,7 @@ class MainMenu : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.item_add -> {
-                val directions = MainMenuDirections.actionMainMenuToTrackListFragment()
+                val directions = MainMenuFragmentDirections.actionMainMenuTrackList()
                 NavHostFragment.findNavController(this).navigate(directions)
             }
         }
@@ -88,7 +85,7 @@ class MainMenu : Fragment() {
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance(param1: String, param2: String) =
-            MainMenu().apply {
+            MainMenuFragment().apply {
                 arguments = Bundle().apply {
                     putString(ARG_PARAM1, param1)
                     putString(ARG_PARAM2, param2)
