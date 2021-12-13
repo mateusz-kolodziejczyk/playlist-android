@@ -1,5 +1,5 @@
-package org.wit.playlistapplication.models
+package org.mk.playlist.models
 
-import org.wit.playlistapplication.models.interfaces.TrackHolder
 
-data class PlaylistModel(var name: String = "", override var tracks: List<TrackModel>) : TrackHolder
+
+data class PlaylistModel(var name: String = "", var tracks: List<TrackModel>)

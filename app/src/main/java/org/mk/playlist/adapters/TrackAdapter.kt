@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.mk.playlist.databinding.CardTrackBinding
-import org.wit.playlistapplication.models.TrackModel
+import org.mk.playlist.models.TrackModel
 
 interface TrackListener {
     fun onTrackClick(track: TrackModel)

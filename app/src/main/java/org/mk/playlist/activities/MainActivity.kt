@@ -23,42 +23,18 @@ import timber.log.Timber
 import timber.log.Timber.i
 
 class MainActivity : AppCompatActivity() {
-    private val clientID = BuildConfig.SPOTIFY_CLIENT_ID
-    private val clientSecret = BuildConfig.SPOTIFY_CLIENT_SECRET
-    private lateinit var app: MainApp
-    private lateinit var binding: ActivityMainBinding
 
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val queue = Volley.newRequestQueue(this)
-        app = application as MainApp
-        val postRequest = createTokenRequest(clientID, clientSecret, app)
-        queue?.add(postRequest)
-        binding.getToken.setOnClickListener() {
-            val getTopTracksRequest = getArtistTopTracks("6PfSUFtkMVoDkx4MQkzOi3", app.accessToken, app.tracks)
-            queue?.add(getTopTracksRequest)
-            for(track in app.tracks.findAll()){
-                i("$track")
-            }
-        }
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.menu_main, menu)
         return super.onCreateOptionsMenu(menu)
     }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.item_add -> {
-                val launcherIntent = Intent(this, TrackListActivity::class.java)
-                startActivity(launcherIntent)
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
-
 }
 

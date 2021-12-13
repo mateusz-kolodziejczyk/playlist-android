@@ -10,8 +10,8 @@ import org.mk.playlist.main.MainApp
 import timber.log.Timber
 import timber.log.Timber.i
 import org.json.JSONException
+import org.mk.playlist.models.TrackModel
 import org.mk.playlist.models.data_stores.TrackStore
-import org.wit.playlistapplication.models.TrackModel
 
 
 // A lot of the api code is from https://stackoverflow.com/questions/65509624/unable-to-obtain-a-spotify-access-token-by-creating-a-volley-post-request-in-kot

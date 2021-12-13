@@ -1,6 +1,7 @@
 package org.mk.playlist.models.data_stores
 
-import org.wit.playlistapplication.models.TrackModel
+import org.mk.playlist.models.TrackModel
+
 
 class TrackStore : DataStore<TrackModel> {
     // ID to model

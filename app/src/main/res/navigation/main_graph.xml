@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/track_list_graph"
+    app:startDestination="@id/mainMenu">
+
+    <fragment
+        android:id="@+id/trackListFragment"
+        android:name="org.mk.playlist.fragments.TrackListFragment"
+        android:label="fragment_track_list"
+        tools:layout="@layout/fragment_track_list" >
+        <action
+            android:id="@+id/action_viewTrackDetails"
+            app:destination="@id/trackDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trackDetailFragment"
+        android:name="org.mk.playlist.fragments.TrackDetailFragment"
+        android:label="fragment_track_detail"
+        tools:layout="@layout/fragment_track_detail">
+        <argument
+            android:name="track"
+            app:argType="org.mk.playlist.models.TrackModel" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainMenu"
+        android:name="org.mk.playlist.fragments.MainMenu"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu" >
+        <action
+            android:id="@+id/action_mainMenu_to_trackListFragment"
+            app:destination="@id/trackListFragment" />
+    </fragment>
+</navigation>
