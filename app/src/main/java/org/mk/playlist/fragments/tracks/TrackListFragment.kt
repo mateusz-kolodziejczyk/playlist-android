@@ -78,7 +78,7 @@ class TrackListFragment : Fragment(), TrackListener {
         navigateToTrackDetails(track)
     }
 
-    fun navigateToTrackDetails(track: TrackModel){
+    private fun navigateToTrackDetails(track: TrackModel){
         val directions = TrackListFragmentDirections.actionViewTrackDetails(track)
         findNavController(this).navigate(directions)
     }

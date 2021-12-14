@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.NavHostFragment
 import org.mk.playlist.databinding.FragmentTrackDetailBinding
 import org.mk.playlist.helpers.artistIDsToArtistString
 import org.mk.playlist.main.MainApp
@@ -31,11 +32,16 @@ class TrackDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         //binding.artistName.text = track?.artistIDs
         val app = activity?.application as MainApp
-        track?.let {
-            binding.trackName.text = it.name
-            binding.artistName.text = artistIDsToArtistString(it.artistIDs, app.artists.findAll())
-            binding.url.text = it.url.toString()
+        track?.let { trackModel ->
+            binding.trackName.text = trackModel.name
+            binding.artistName.text = artistIDsToArtistString(trackModel.artistIDs, app.artists.findAll())
+            binding.url.text = trackModel.url.toString()
+            binding.buttonUpdate.setOnClickListener {
+                val directions = TrackDetailFragmentDirections.actionUpdateTrack(trackModel)
+                NavHostFragment.findNavController(this).navigate(directions)
+            }
         }
+
     }
 
     companion object {

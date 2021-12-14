@@ -9,4 +9,9 @@
     <string name="bottom_nav_item3">Tracks</string>
     <string name="action_search">Search</string>
     <string name="spotify_url">https://www.spotify.com</string>
+    <string name="button_add">Add</string>
+    <string name="hint_trackURL">Enter URL</string>
+    <string name="hint_trackName">Enter Trackname</string>
+    <string name="error_no_track_name">Please enter in a track name</string>
+    <string name="button_update">Update</string>
 </resources>

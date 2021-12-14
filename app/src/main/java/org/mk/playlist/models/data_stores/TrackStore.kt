@@ -33,7 +33,12 @@ class TrackStore(private val context: Context) : DataStore<TrackModel> {
 
     }
     override fun update(obj: TrackModel){
-
+        val trackToUpdate = tracks[obj.id]
+        // If it finds the correct track by id, update it.
+        trackToUpdate?.let{
+            tracks[obj.id] = obj
+            serialize()
+        }
     }
     override fun add(obj: TrackModel){
         tracks[obj.id] = obj
