@@ -1,6 +1,7 @@
 package org.mk.playlist.helpers
 
 import android.util.Base64
+import androidx.core.net.toUri
 import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
@@ -91,19 +92,19 @@ fun getArtistTopTracks(artistID: String, accessToken: String, app: MainApp) : Js
                     val track = tracks.getJSONObject(i)
                     val trackID = track.getString("id")
                     val trackName = track.getString("name")
-
+                    val spotifyURI = track.getJSONObject("external_urls").getString("spotify")
                     val artistsJSONArray = track.getJSONArray("artists")
                     val artistIDs = LinkedHashSet<String>()
                     // Add all artist IDs to the song
                     for(j in 0 until artistsJSONArray.length()){
                         val artist = artistsJSONArray.getJSONObject(j)
-                        val artistID = artist.getString("id")
+                        val id = artist.getString("id")
                         val artistName = artist.getString("name")
 
-                        artistIDs.add(artistID)
-                        app.artists.add(ArtistModel(id=artistID, name=artistName))
+                        artistIDs.add(id)
+                        app.artists.add(ArtistModel(id=id, name=artistName))
                     }
-                    app.tracks.add(TrackModel(id = trackID, name = trackName, artistIDs = artistIDs))
+                    app.tracks.add(TrackModel(id = trackID, name = trackName, url=spotifyURI.toUri(), artistIDs=artistIDs))
                 }
             } catch (e: JSONException) {
                 e.printStackTrace()

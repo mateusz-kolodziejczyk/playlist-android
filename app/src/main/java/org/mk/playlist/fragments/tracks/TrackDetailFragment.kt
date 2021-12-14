@@ -34,6 +34,7 @@ class TrackDetailFragment : Fragment() {
         track?.let {
             binding.trackName.text = it.name
             binding.artistName.text = artistIDsToArtistString(it.artistIDs, app.artists.findAll())
+            binding.url.text = it.url.toString()
         }
     }
 

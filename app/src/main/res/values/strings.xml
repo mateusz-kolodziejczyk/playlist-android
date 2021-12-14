@@ -8,4 +8,5 @@
     <string name="bottom_nav_item2">Artists</string>
     <string name="bottom_nav_item3">Tracks</string>
     <string name="action_search">Search</string>
+    <string name="spotify_url">https://www.spotify.com</string>
 </resources>

@@ -12,12 +12,13 @@ import timber.log.Timber.i
 class MainApp : Application() {
 
     var accessToken = ""
-    val tracks = TrackStore()
+    lateinit var tracks: TrackStore
     val artists = ArtistStore()
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         i("Playlist App started")
+        tracks = TrackStore(applicationContext)
         // App gets a new spotify access token each time it launches
         val queue = Volley.newRequestQueue(this)
         val postRequest = createTokenRequest(BuildConfig.SPOTIFY_CLIENT_ID, BuildConfig.SPOTIFY_CLIENT_SECRET, this)
