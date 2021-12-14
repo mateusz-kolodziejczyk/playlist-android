@@ -1,35 +1,28 @@
-package org.mk.playlist.fragments
+package org.mk.playlist.fragments.tracks
 
 import android.content.Intent
 import android.os.Bundle
 import android.view.*
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Lifecycle
-import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import org.mk.playlist.R
-import org.mk.playlist.activities.TrackListActivity
 import org.mk.playlist.adapters.TrackAdapter
 import org.mk.playlist.adapters.TrackListener
+import org.mk.playlist.databinding.FragmentListBinding
 import org.mk.playlist.main.MainApp
-import java.lang.Exception
-import androidx.navigation.fragment.findNavController
-import org.mk.playlist.databinding.FragmentTrackListBinding
 import org.mk.playlist.models.TrackModel
 
 class TrackListFragment : Fragment(), TrackListener {
-    private lateinit var binding: FragmentTrackListBinding
+    private lateinit var binding: FragmentListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentTrackListBinding.inflate(inflater, container, false)
+        binding = FragmentListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -38,7 +31,7 @@ class TrackListFragment : Fragment(), TrackListener {
         val app = activity?.application as MainApp
 
         binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = TrackAdapter(app.tracks.findAll(),this)
+        binding.recyclerView.adapter = TrackAdapter(app.tracks.findAll(),app.artists.findAll(), this)
 
         registerRefreshCallback()
     }

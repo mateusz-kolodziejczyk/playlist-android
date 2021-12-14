@@ -6,7 +6,7 @@
         android:icon="@mipmap/ic_launcher"
         android:title="@string/bottom_nav_item1"/>
     <item
-        android:id="@+id/page_2"
+        android:id="@+id/artistListFragment"
         android:enabled="true"
         android:icon="@mipmap/ic_launcher_round"
         android:title="@string/bottom_nav_item2"/>

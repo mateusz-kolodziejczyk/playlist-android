@@ -7,16 +7,16 @@
 
     <fragment
         android:id="@+id/trackListFragment"
-        android:name="org.mk.playlist.fragments.TrackListFragment"
+        android:name="org.mk.playlist.fragments.tracks.TrackListFragment"
         android:label="Track List"
-        tools:layout="@layout/fragment_track_list">
+        tools:layout="@layout/fragment_list">
         <action
             android:id="@+id/action_viewTrackDetails"
             app:destination="@id/trackDetailFragment" />
     </fragment>
     <fragment
         android:id="@+id/trackDetailFragment"
-        android:name="org.mk.playlist.fragments.TrackDetailFragment"
+        android:name="org.mk.playlist.fragments.tracks.TrackDetailFragment"
         android:label="Track Details"
         tools:layout="@layout/fragment_track_detail">
         <argument
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/trackUpdateFragment"
-        android:name="org.mk.playlist.fragments.TrackUpdateFragment"
+        android:name="org.mk.playlist.fragments.tracks.TrackUpdateFragment"
         android:label="Update Track"
         tools:layout="@layout/fragment_track_update">
         <argument
@@ -43,5 +43,26 @@
         <action
             android:id="@+id/action_mainMenu_trackList"
             app:destination="@id/trackListFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_artistListFragment"
+            app:destination="@id/artistListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/artistListFragment"
+        android:name="org.mk.playlist.fragments.artists.ArtistListFragment"
+        android:label="ArtistListFragment"
+        tools:layout="@layout/fragment_list">
+        <action
+            android:id="@+id/action_artistListFragment_to_artistDetailsFragment"
+            app:destination="@id/artistDetailsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/artistDetailsFragment"
+        android:name="org.mk.playlist.fragments.artists.ArtistDetailsFragment"
+        android:label="fragment_artist_details"
+        tools:layout="@layout/fragment_artist_details" >
+        <argument
+            android:name="artist"
+            app:argType="org.mk.playlist.models.ArtistModel" />
     </fragment>
 </navigation>

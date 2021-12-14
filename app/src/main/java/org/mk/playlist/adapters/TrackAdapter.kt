@@ -4,6 +4,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import org.mk.playlist.databinding.CardTrackBinding
+import org.mk.playlist.helpers.artistIDsToArtistString
+import org.mk.playlist.models.ArtistModel
 import org.mk.playlist.models.TrackModel
 
 interface TrackListener {
@@ -11,6 +13,7 @@ interface TrackListener {
 }
 
 class TrackAdapter constructor(private var tracks: List<TrackModel>,
+                               private var artists: List<ArtistModel>,
                                private val listener: TrackListener) :
     RecyclerView.Adapter<TrackAdapter.MainHolder>() {
 
@@ -22,19 +25,20 @@ class TrackAdapter constructor(private var tracks: List<TrackModel>,
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        val placemark = tracks[holder.adapterPosition]
-        holder.bind(placemark, listener)
+        val track = tracks[holder.adapterPosition]
+        holder.bind(track, listener)
     }
 
     override fun getItemCount(): Int = tracks.size
 
-    class MainHolder(private val binding : CardTrackBinding) :
+    // Using inner class to access artists list
+    inner class MainHolder(private val binding : CardTrackBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
         fun bind(track: TrackModel, listener: TrackListener) {
             //Picasso.get().load(placemark.image).resize(200,200).into(binding.imageIcon)
             binding.trackName.text = track.name
-            binding.artistName.text = track.artistName
+            val s = artistIDsToArtistString(track.artistIDs, artists)
+            binding.artistName.text = s
             binding.root.setOnClickListener { listener.onTrackClick(track) }
         }
     }

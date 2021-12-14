@@ -7,4 +7,4 @@ import kotlinx.parcelize.Parcelize
 data class TrackModel(
     val id: String,
     var name: String = "",
-    var artistName: String = "") : Parcelable
+    internal val artistIDs: LinkedHashSet<String> = LinkedHashSet()) : Parcelable

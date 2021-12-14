@@ -15,7 +15,7 @@
         android:padding="16dp">
 
         <TextView
-            android:id="@+id/trackName"
+            android:id="@+id/artistName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -28,7 +28,7 @@
             tools:text="A Track Name" />
 
         <TextView
-            android:id="@+id/artistName"
+            android:id="@+id/genres"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -36,7 +36,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.052"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/trackName"
+            app:layout_constraintTop_toBottomOf="@id/artistName"
             tools:text="An Artist" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

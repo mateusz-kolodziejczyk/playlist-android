@@ -1,4 +1,4 @@
-package org.mk.playlist.fragments
+package org.mk.playlist.fragments.tracks
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment

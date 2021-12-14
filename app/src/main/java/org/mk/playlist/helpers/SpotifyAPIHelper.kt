@@ -10,8 +10,8 @@ import org.mk.playlist.main.MainApp
 import timber.log.Timber
 import timber.log.Timber.i
 import org.json.JSONException
+import org.mk.playlist.models.ArtistModel
 import org.mk.playlist.models.TrackModel
-import org.mk.playlist.models.data_stores.TrackStore
 
 
 // A lot of the api code is from https://stackoverflow.com/questions/65509624/unable-to-obtain-a-spotify-access-token-by-creating-a-volley-post-request-in-kot
@@ -77,7 +77,7 @@ fun getArtistByID(artistID: String, accessToken: String) : StringRequest{
     }
 }
 
-fun getArtistTopTracks(artistID: String, accessToken: String, trackStore: TrackStore) : JsonObjectRequest{
+fun getArtistTopTracks(artistID: String, accessToken: String, app: MainApp) : JsonObjectRequest{
     val APIRequestURL = "https://api.spotify.com/v1/artists/$artistID/top-tracks?country=IE"
     return object : JsonObjectRequest(
         Method.GET, APIRequestURL, null,
@@ -92,10 +92,18 @@ fun getArtistTopTracks(artistID: String, accessToken: String, trackStore: TrackS
                     val trackID = track.getString("id")
                     val trackName = track.getString("name")
 
-                    val artistList = track.getJSONArray("artists")
-                    val artistName = artistList.getJSONObject(0).getString("name")
+                    val artistsJSONArray = track.getJSONArray("artists")
+                    val artistIDs = LinkedHashSet<String>()
+                    // Add all artist IDs to the song
+                    for(j in 0 until artistsJSONArray.length()){
+                        val artist = artistsJSONArray.getJSONObject(j)
+                        val artistID = artist.getString("id")
+                        val artistName = artist.getString("name")
 
-                    trackStore.add(TrackModel(id=trackID, name=trackName, artistName=artistName))
+                        artistIDs.add(artistID)
+                        app.artists.add(ArtistModel(id=artistID, name=artistName))
+                    }
+                    app.tracks.add(TrackModel(id = trackID, name = trackName, artistIDs = artistIDs))
                 }
             } catch (e: JSONException) {
                 e.printStackTrace()
