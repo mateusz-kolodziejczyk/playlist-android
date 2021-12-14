@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         val appBarConfiguration = AppBarConfiguration(navController.graph)
         val bottomNavMenu = findViewById<BottomNavigationView>(R.id.bottom_nav)
         bottomNavMenu.setupWithNavController(navController)
+
     }
 
 //    override fun onCreateOptionsMenu(menu: Menu): Boolean {

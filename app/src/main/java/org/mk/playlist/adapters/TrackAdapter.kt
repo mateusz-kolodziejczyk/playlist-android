@@ -2,11 +2,15 @@ package org.mk.playlist.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import org.mk.playlist.databinding.CardTrackBinding
 import org.mk.playlist.helpers.artistIDsToArtistString
 import org.mk.playlist.models.ArtistModel
 import org.mk.playlist.models.TrackModel
+import java.util.*
+import kotlin.collections.ArrayList
 
 interface TrackListener {
     fun onTrackClick(track: TrackModel)
@@ -15,8 +19,8 @@ interface TrackListener {
 class TrackAdapter constructor(private var tracks: List<TrackModel>,
                                private var artists: List<ArtistModel>,
                                private val listener: TrackListener) :
-    RecyclerView.Adapter<TrackAdapter.MainHolder>() {
-
+    RecyclerView.Adapter<TrackAdapter.MainHolder>(), Filterable {
+    val originalList = tracks
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardTrackBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
@@ -30,7 +34,37 @@ class TrackAdapter constructor(private var tracks: List<TrackModel>,
     }
 
     override fun getItemCount(): Int = tracks.size
+    // Filter Code taken from https://stackoverflow.com/a/37735562
+    override fun getFilter(): Filter {
+        return object : Filter() {
+            override fun publishResults(constraint: CharSequence, results: FilterResults) {
+                tracks = results.values as List<TrackModel>
+                notifyDataSetChanged()
+            }
 
+            override fun performFiltering(constraint: CharSequence): FilterResults {
+                var filteredResults: List<TrackModel?>? = null
+                if (constraint.isEmpty()) {
+                    filteredResults = originalList
+                } else {
+                    filteredResults = getFilteredResults(constraint.toString()
+                        .lowercase(Locale.getDefault()))
+                }
+                val results = FilterResults()
+                results.values = filteredResults
+                return results
+            }
+        }
+    }
+    private fun getFilteredResults(constraint: String): List<TrackModel> {
+        val results: MutableList<TrackModel> = ArrayList()
+        for (artist in originalList) {
+            if (artist.name.lowercase(Locale.getDefault()).contains(constraint)) {
+                results.add(artist)
+            }
+        }
+        return results
+    }
     // Using inner class to access artists list
     inner class MainHolder(private val binding : CardTrackBinding) :
         RecyclerView.ViewHolder(binding.root) {

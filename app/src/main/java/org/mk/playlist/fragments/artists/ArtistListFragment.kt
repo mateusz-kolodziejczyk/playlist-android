@@ -1,16 +1,17 @@
 package org.mk.playlist.fragments.artists
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.*
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.SearchView
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.mk.playlist.R
+import org.mk.playlist.activities.MainActivity
 import org.mk.playlist.adapters.ArtistAdapter
 import org.mk.playlist.adapters.TrackAdapter
 import org.mk.playlist.databinding.FragmentListBinding
@@ -24,6 +25,10 @@ class ArtistListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -51,6 +56,31 @@ class ArtistListFragment : Fragment() {
 //    override fun onTrackClick(track: TrackModel) {
 //        navigateToTrackDetails(track)
 //    }
+
+    // Taken from https://stackoverflow.com/a/52018980
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        menu.clear()
+        inflater.inflate(R.menu.menu_search, menu)
+        val searchView = SearchView(activity as Context)
+        menu.findItem(R.id.action_search).apply {
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            actionView = searchView
+        }
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                val adapter = binding.recyclerView.adapter as ArtistAdapter
+                adapter.filter.filter(newText)
+                return false
+            }
+        })
+        searchView.setOnClickListener {view ->  }
+    }
 
     private val navigateToArtistDetails = { artist: ArtistModel ->
         val directions = ArtistListFragmentDirections.actionArtistListFragmentToArtistDetailsFragment(artist)
