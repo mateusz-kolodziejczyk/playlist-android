@@ -53,6 +53,10 @@ class TrackListFragment : Fragment(), TrackListener {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
+        setupSearchMenu(inflater, menu)
+    }
+
+    private fun setupSearchMenu(inflater: MenuInflater, menu: Menu) {
         inflater.inflate(R.menu.menu_search, menu)
         val searchView = SearchView(activity as Context)
         menu.findItem(R.id.action_search).apply {
@@ -71,8 +75,9 @@ class TrackListFragment : Fragment(), TrackListener {
                 return false
             }
         })
-        searchView.setOnClickListener {view ->  }
+        searchView.setOnClickListener { view -> }
     }
+
     private fun registerRefreshCallback() {
         refreshIntentLauncher =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult())

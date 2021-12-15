@@ -61,6 +61,10 @@ class ArtistListFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
+        setupSearchMenu(inflater, menu)
+    }
+
+    private fun setupSearchMenu(inflater: MenuInflater, menu: Menu) {
         inflater.inflate(R.menu.menu_search, menu)
         val searchView = SearchView(activity as Context)
         menu.findItem(R.id.action_search).apply {
@@ -79,11 +83,25 @@ class ArtistListFragment : Fragment() {
                 return false
             }
         })
-        searchView.setOnClickListener {view ->  }
+        searchView.setOnClickListener { view -> }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_add -> {
+                navigateToArtistAdd()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private val navigateToArtistDetails = { artist: ArtistModel ->
         val directions = ArtistListFragmentDirections.actionArtistListFragmentToArtistDetailsFragment(artist)
+        NavHostFragment.findNavController(this).navigate(directions)
+    }
+
+    private fun navigateToArtistAdd(){
+        val directions = ArtistListFragmentDirections.actionArtistListFragmentToArtistAddFragment()
         NavHostFragment.findNavController(this).navigate(directions)
     }
 

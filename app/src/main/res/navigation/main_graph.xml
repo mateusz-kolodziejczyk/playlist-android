@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_viewTrackDetails"
             app:destination="@id/trackDetailFragment" />
+        <action
+            android:id="@+id/action_trackListFragment_to_trackAddFragment"
+            app:destination="@id/trackAddFragment" />
     </fragment>
     <fragment
         android:id="@+id/trackDetailFragment"
@@ -63,6 +66,9 @@
         <action
             android:id="@+id/action_artistListFragment_to_artistDetailsFragment"
             app:destination="@id/artistDetailsFragment" />
+        <action
+            android:id="@+id/action_artistListFragment_to_artistAddFragment"
+            app:destination="@id/artistAddFragment" />
     </fragment>
     <fragment
         android:id="@+id/artistDetailsFragment"
@@ -104,4 +110,18 @@
         android:name="org.mk.playlist.fragments.playlists.PlaylistAddFragment"
         android:label="fragment_playlist_add"
         tools:layout="@layout/fragment_playlist_add" />
+    <fragment
+        android:id="@+id/artistAddFragment"
+        android:name="org.mk.playlist.fragments.artists.ArtistAddFragment"
+        android:label="fragment_artist_add"
+        tools:layout="@layout/fragment_artist_add" >
+        <action
+            android:id="@+id/action_artistAddFragment_to_artistListFragment"
+            app:destination="@id/artistListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/trackAddFragment"
+        android:name="org.mk.playlist.fragments.tracks.TrackAddFragment"
+        android:label="fragment_track_add"
+        tools:layout="@layout/fragment_track_add" />
 </navigation>

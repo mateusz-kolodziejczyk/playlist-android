@@ -14,4 +14,5 @@
     <string name="hint_trackName">Enter Trackname</string>
     <string name="error_no_track_name">Please enter in a track name</string>
     <string name="button_update">Update</string>
+    <string name="error_no_artist_name">Please enter a name</string>
 </resources>

@@ -57,6 +57,10 @@ class PlaylistListFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         menu.clear()
+        setupOptionsMenu(inflater, menu)
+    }
+
+    private fun setupOptionsMenu(inflater: MenuInflater, menu: Menu) {
         inflater.inflate(R.menu.menu_search, menu)
         val searchView = SearchView(activity as Context)
         menu.findItem(R.id.action_search).apply {
@@ -75,7 +79,7 @@ class PlaylistListFragment : Fragment() {
                 return false
             }
         })
-        searchView.setOnClickListener {view ->  }
+        searchView.setOnClickListener { view -> }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
