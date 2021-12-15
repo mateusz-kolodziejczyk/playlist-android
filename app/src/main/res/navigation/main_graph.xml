@@ -109,7 +109,11 @@
         android:id="@+id/playlistAddFragment"
         android:name="org.mk.playlist.fragments.playlists.PlaylistAddFragment"
         android:label="fragment_playlist_add"
-        tools:layout="@layout/fragment_playlist_add" />
+        tools:layout="@layout/fragment_playlist_add" >
+        <action
+            android:id="@+id/action_playlistAddFragment_to_playlistListFragment"
+            app:destination="@id/playlistListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/artistAddFragment"
         android:name="org.mk.playlist.fragments.artists.ArtistAddFragment"
