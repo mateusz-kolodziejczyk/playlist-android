@@ -12,13 +12,11 @@ import org.mk.playlist.models.TrackModel
 import java.util.*
 import kotlin.collections.ArrayList
 
-interface TrackListener {
-    fun onTrackClick(track: TrackModel)
-}
 
-class TrackAdapter constructor(private var tracks: List<TrackModel>,
-                               private var artists: List<ArtistModel>,
-                               private val listener: TrackListener) :
+class TrackAdapter(private var tracks: List<TrackModel>,
+                   private var artists: List<ArtistModel>,
+                   private val onClickFunction: (TrackModel) -> Unit = {}
+) :
     RecyclerView.Adapter<TrackAdapter.MainHolder>(), Filterable {
     val originalList = tracks
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
@@ -30,7 +28,7 @@ class TrackAdapter constructor(private var tracks: List<TrackModel>,
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val track = tracks[holder.adapterPosition]
-        holder.bind(track, listener)
+        holder.bind(track, onClickFunction)
     }
 
     override fun getItemCount(): Int = tracks.size
@@ -68,12 +66,12 @@ class TrackAdapter constructor(private var tracks: List<TrackModel>,
     // Using inner class to access artists list
     inner class MainHolder(private val binding : CardTrackBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(track: TrackModel, listener: TrackListener) {
+        fun bind(track: TrackModel, onClickFunction: (TrackModel) -> Unit) {
             //Picasso.get().load(placemark.image).resize(200,200).into(binding.imageIcon)
             binding.trackName.text = track.name
             val s = artistIDsToArtistString(track.artistIDs, artists)
             binding.artistName.text = s
-            binding.root.setOnClickListener { listener.onTrackClick(track) }
+            binding.root.setOnClickListener { onClickFunction(track) }
         }
     }
 }

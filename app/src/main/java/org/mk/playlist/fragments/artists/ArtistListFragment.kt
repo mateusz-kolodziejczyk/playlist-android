@@ -23,7 +23,6 @@ import org.mk.playlist.models.TrackModel
 
 class ArtistListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
-    private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,13 +43,6 @@ class ArtistListFragment : Fragment() {
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = ArtistAdapter(app.artists.findAll(), navigateToArtistDetails)
 
-        registerRefreshCallback()
-    }
-
-    private fun registerRefreshCallback() {
-        refreshIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { binding.recyclerView.adapter?.notifyDataSetChanged() }
     }
 
 //    override fun onTrackClick(track: TrackModel) {

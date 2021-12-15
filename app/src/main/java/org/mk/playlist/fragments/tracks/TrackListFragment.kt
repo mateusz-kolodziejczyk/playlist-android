@@ -9,14 +9,15 @@ import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.mk.playlist.R
-import org.mk.playlist.adapters.TrackAdapter
-import org.mk.playlist.adapters.TrackListener
 import org.mk.playlist.databinding.FragmentListBinding
 import org.mk.playlist.fragments.playlists.SharedViewModel
 import org.mk.playlist.main.MainApp
 import org.mk.playlist.models.TrackModel
 
-class TrackListFragment : Fragment(), TrackListener {
+import org.mk.playlist.adapters.*
+
+
+class TrackListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
     private val model: SharedViewModel by navGraphViewModels(R.id.main_graph)
 
@@ -37,8 +38,10 @@ class TrackListFragment : Fragment(), TrackListener {
         val layoutManager = LinearLayoutManager(view.context)
         val app = activity?.application as MainApp
 
-        binding.recyclerView.layoutManager = layoutManager
-        binding.recyclerView.adapter = TrackAdapter(app.tracks.findAll(),app.artists.findAll(), this)
+        val recyclerView = binding.recyclerView
+        recyclerView.layoutManager = layoutManager
+        val trackAdapter = TrackAdapter(app.tracks.findAll(), app.artists.findAll(), onTrackClick)
+        recyclerView.adapter = trackAdapter
 
     }
     // Taken from https://stackoverflow.com/a/52018980
@@ -78,7 +81,7 @@ class TrackListFragment : Fragment(), TrackListener {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onTrackClick(track: TrackModel) {
+    private val onTrackClick = { track: TrackModel ->
         model.selectTrack(track)
         navigateToTrackDetails(track)
     }

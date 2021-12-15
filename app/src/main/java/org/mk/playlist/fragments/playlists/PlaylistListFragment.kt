@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import org.mk.playlist.R
 import org.mk.playlist.adapters.PlaylistAdapter
 import org.mk.playlist.adapters.TrackAdapter
-import org.mk.playlist.adapters.TrackListener
 import org.mk.playlist.databinding.FragmentListBinding
 import org.mk.playlist.fragments.artists.ArtistListFragmentDirections
 import org.mk.playlist.fragments.playlists.PlaylistListFragmentDirections
@@ -28,7 +27,6 @@ import org.mk.playlist.models.TrackModel
 
 class PlaylistListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
-    private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
     private val model: PlaylistViewModel by navGraphViewModels(R.id.main_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,7 +49,6 @@ class PlaylistListFragment : Fragment() {
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = PlaylistAdapter(app.playlists.findAll(), onPlaylistClick)
 
-        registerRefreshCallback()
     }
     // Taken from https://stackoverflow.com/a/52018980
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -89,11 +86,6 @@ class PlaylistListFragment : Fragment() {
             }
         }
         return super.onOptionsItemSelected(item)
-    }
-    private fun registerRefreshCallback() {
-        refreshIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { binding.recyclerView.adapter?.notifyDataSetChanged() }
     }
 
     private val onPlaylistClick = { playlist: PlaylistModel ->

@@ -7,6 +7,7 @@ import android.widget.Filter.FilterResults
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
 import org.mk.playlist.databinding.CardArtistBinding
+
 import org.mk.playlist.databinding.CardTrackBinding
 import org.mk.playlist.helpers.artistIDsToArtistString
 import org.mk.playlist.models.ArtistModel
