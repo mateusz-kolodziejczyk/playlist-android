@@ -2,7 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/track_list_graph"
+    android:id="@+id/main_graph"
     app:startDestination="@id/mainMenuFragment">
 
     <fragment
@@ -51,6 +51,9 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_artistListFragment"
             app:destination="@id/artistListFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_playlistListFragment"
+            app:destination="@id/playlistListFragment" />
     </fragment>
     <fragment
         android:id="@+id/artistListFragment"
@@ -70,4 +73,35 @@
             android:name="artist"
             app:argType="org.mk.playlist.models.ArtistModel" />
     </fragment>
+    <fragment
+        android:id="@+id/playlistListFragment"
+        android:name="org.mk.playlist.fragments.playlists.PlaylistListFragment"
+        android:label="fragment_playlist_list"
+        tools:layout="@layout/fragment_playlist_list" >
+        <action
+            android:id="@+id/action_playlistListFragment_to_playlistDetailFragment"
+            app:destination="@id/playlistDetailFragment" />
+        <action
+            android:id="@+id/action_playlistListFragment_to_playlistAddFragment"
+            app:destination="@id/playlistAddFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/playlistDetailFragment"
+        android:name="org.mk.playlist.fragments.playlists.PlaylistDetailFragment"
+        android:label="fragment_playlist_detail"
+        tools:layout="@layout/fragment_playlist_detail" >
+        <action
+            android:id="@+id/action_playlistDetailFragment_to_playlistUpdateFragment"
+            app:destination="@id/playlistUpdateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/playlistUpdateFragment"
+        android:name="org.mk.playlist.fragments.playlists.PlaylistUpdateFragment"
+        android:label="fragment_playlist_update"
+        tools:layout="@layout/fragment_playlist_update" />
+    <fragment
+        android:id="@+id/playlistAddFragment"
+        android:name="org.mk.playlist.fragments.playlists.PlaylistAddFragment"
+        android:label="fragment_playlist_add"
+        tools:layout="@layout/fragment_playlist_add" />
 </navigation>

@@ -8,19 +8,24 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.mk.playlist.R
 import org.mk.playlist.adapters.ArtistAdapter
 import org.mk.playlist.adapters.TrackAdapter
 import org.mk.playlist.adapters.TrackListener
 import org.mk.playlist.databinding.FragmentListBinding
+import org.mk.playlist.fragments.playlists.SharedViewModel
 import org.mk.playlist.main.MainApp
 import org.mk.playlist.models.TrackModel
 
 class TrackListFragment : Fragment(), TrackListener {
     private lateinit var binding: FragmentListBinding
     private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
+    private val model: SharedViewModel by navGraphViewModels(R.id.main_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -75,6 +80,7 @@ class TrackListFragment : Fragment(), TrackListener {
     }
 
     override fun onTrackClick(track: TrackModel) {
+        model.selectTrack(track)
         navigateToTrackDetails(track)
     }
 
