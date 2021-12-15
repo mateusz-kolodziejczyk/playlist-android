@@ -123,5 +123,9 @@
         android:id="@+id/trackAddFragment"
         android:name="org.mk.playlist.fragments.tracks.TrackAddFragment"
         android:label="fragment_track_add"
-        tools:layout="@layout/fragment_track_add" />
+        tools:layout="@layout/fragment_track_add" >
+        <action
+            android:id="@+id/action_trackAddFragment_to_trackListFragment"
+            app:destination="@id/trackListFragment" />
+    </fragment>
 </navigation>

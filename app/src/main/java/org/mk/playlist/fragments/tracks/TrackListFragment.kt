@@ -1,20 +1,14 @@
 package org.mk.playlist.fragments.tracks
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.mk.playlist.R
-import org.mk.playlist.adapters.ArtistAdapter
 import org.mk.playlist.adapters.TrackAdapter
 import org.mk.playlist.adapters.TrackListener
 import org.mk.playlist.databinding.FragmentListBinding
@@ -24,7 +18,6 @@ import org.mk.playlist.models.TrackModel
 
 class TrackListFragment : Fragment(), TrackListener {
     private lateinit var binding: FragmentListBinding
-    private lateinit var refreshIntentLauncher : ActivityResultLauncher<Intent>
     private val model: SharedViewModel by navGraphViewModels(R.id.main_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -47,7 +40,6 @@ class TrackListFragment : Fragment(), TrackListener {
         binding.recyclerView.layoutManager = layoutManager
         binding.recyclerView.adapter = TrackAdapter(app.tracks.findAll(),app.artists.findAll(), this)
 
-        registerRefreshCallback()
     }
     // Taken from https://stackoverflow.com/a/52018980
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -77,11 +69,13 @@ class TrackListFragment : Fragment(), TrackListener {
         })
         searchView.setOnClickListener { view -> }
     }
-
-    private fun registerRefreshCallback() {
-        refreshIntentLauncher =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult())
-            { binding.recyclerView.adapter?.notifyDataSetChanged() }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.item_add -> {
+                navigateToTrackAdd()
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onTrackClick(track: TrackModel) {
@@ -91,6 +85,11 @@ class TrackListFragment : Fragment(), TrackListener {
 
     private fun navigateToTrackDetails(track: TrackModel){
         val directions = TrackListFragmentDirections.actionViewTrackDetails(track)
+        findNavController(this).navigate(directions)
+    }
+
+    private fun navigateToTrackAdd(){
+        val directions = TrackListFragmentDirections.actionTrackListFragmentToTrackAddFragment()
         findNavController(this).navigate(directions)
     }
 }

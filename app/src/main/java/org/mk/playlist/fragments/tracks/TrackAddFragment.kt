@@ -5,56 +5,56 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.net.toUri
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.navGraphViewModels
+import com.google.android.material.snackbar.Snackbar
 import org.mk.playlist.R
+import org.mk.playlist.activities.MainActivity
+import org.mk.playlist.databinding.FragmentTrackUpdateBinding
+import org.mk.playlist.fragments.playlists.SharedViewModel
+import org.mk.playlist.main.MainApp
+import org.mk.playlist.models.TrackModel
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [TrackAddFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class TrackAddFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var binding: FragmentTrackUpdateBinding
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+                              savedInstanceState: Bundle?): View? {
+        binding = FragmentTrackUpdateBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.btnAdd.setOnClickListener{
+            val trackToAdd = TrackModel(
+                id = java.util.UUID.randomUUID().toString(),
+                name = binding.trackName.text.toString(),
+                url = binding.url.text.toString().toUri(),
+                artistIDs = LinkedHashSet()
+            )
+            if (trackToAdd.name.isEmpty()) {
+                Snackbar.make(it, R.string.error_no_track_name, Snackbar.LENGTH_LONG)
+                    .show()
+            }
+            else{
+                val app = activity?.application as MainApp
+                app.tracks.add(trackToAdd)
+                navigateToTrackList()
+            }
         }
     }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_track_add, container, false)
+    private fun navigateToTrackList(){
+        val directions = TrackAddFragmentDirections.actionTrackAddFragmentToTrackListFragment()
+        NavHostFragment.findNavController(this).navigate(directions)
     }
-
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment TrackAddFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            TrackAddFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        @JvmStatic fun newInstance() =
+            TrackAddFragment()
     }
 }
