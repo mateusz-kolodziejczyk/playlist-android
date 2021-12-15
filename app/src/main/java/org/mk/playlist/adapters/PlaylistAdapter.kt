@@ -3,45 +3,43 @@ package org.mk.playlist.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Filter
-import android.widget.Filter.FilterResults
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
-import org.mk.playlist.databinding.CardArtistBinding
+import org.mk.playlist.databinding.CardPlaylistBinding
 import org.mk.playlist.databinding.CardTrackBinding
 import org.mk.playlist.helpers.artistIDsToArtistString
 import org.mk.playlist.models.ArtistModel
-import org.mk.playlist.models.TrackModel
+import org.mk.playlist.models.PlaylistModel
 import java.util.*
 import kotlin.collections.ArrayList
 
-class ArtistAdapter constructor(private var artists: List<ArtistModel>,
-                               private val clickHandler: (ArtistModel) -> Unit) :
-    RecyclerView.Adapter<ArtistAdapter.MainHolder>(), Filterable {
-    private val originalList: List<ArtistModel> = artists
+class PlaylistAdapter constructor(private var playlists: List<PlaylistModel>,
+                                  private val onClickFunction: (PlaylistModel) -> Unit) :
+    RecyclerView.Adapter<PlaylistAdapter.MainHolder>(), Filterable {
+    val originalList = playlists
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
-        val binding = CardArtistBinding
+        val binding = CardPlaylistBinding
             .inflate(LayoutInflater.from(parent.context), parent, false)
 
         return MainHolder(binding)
     }
 
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
-        val artist = artists[holder.adapterPosition]
-        holder.bind(artist, clickHandler)
+        val playlist = playlists[holder.adapterPosition]
+        holder.bind(playlist, onClickFunction)
     }
 
-    override fun getItemCount(): Int = artists.size
-
+    override fun getItemCount(): Int = playlists.size
     // Filter Code taken from https://stackoverflow.com/a/37735562
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun publishResults(constraint: CharSequence, results: FilterResults) {
-                artists = results.values as List<ArtistModel>
+                playlists = results.values as List<PlaylistModel>
                 notifyDataSetChanged()
             }
 
             override fun performFiltering(constraint: CharSequence): FilterResults {
-                var filteredResults: List<ArtistModel?>? = null
+                var filteredResults: List<PlaylistModel?>? = null
                 if (constraint.isEmpty()) {
                     filteredResults = originalList
                 } else {
@@ -54,8 +52,8 @@ class ArtistAdapter constructor(private var artists: List<ArtistModel>,
             }
         }
     }
-    private fun getFilteredResults(constraint: String): List<ArtistModel> {
-        val results: MutableList<ArtistModel> = ArrayList()
+    private fun getFilteredResults(constraint: String): List<PlaylistModel> {
+        val results: MutableList<PlaylistModel> = ArrayList()
         for (artist in originalList) {
             if (artist.name.lowercase(Locale.getDefault()).contains(constraint)) {
                 results.add(artist)
@@ -63,13 +61,11 @@ class ArtistAdapter constructor(private var artists: List<ArtistModel>,
         }
         return results
     }
-    // Using inner class to access artists list
-    inner class MainHolder(private val binding : CardArtistBinding) :
+    inner class MainHolder(private val binding : CardPlaylistBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bind(artist: ArtistModel, clickHandler: (ArtistModel) -> Unit) {
-            binding.root.setOnClickListener { clickHandler(artist) }
-            binding.artistName.text = artist.name
+        fun bind(playlist: PlaylistModel, onClickFunction: (PlaylistModel) -> Unit) {
+            binding.playlistName.text = playlist.name
+            binding.root.setOnClickListener { onClickFunction(playlist) }
         }
     }
-
 }

@@ -5,4 +5,9 @@
         android:title="@string/action_search"
         app:showAsAction="collapseActionView|ifRoom"
         />
+    <item
+        android:id="@+id/item_add"
+        android:icon="@android:drawable/ic_menu_add"
+        android:title="@string/menu_item_add"
+        app:showAsAction="always" />
 </menu>

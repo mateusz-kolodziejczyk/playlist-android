@@ -12,11 +12,12 @@ import java.util.*
 import org.mk.playlist.models.TrackModel
 
 const val JSON_FILE = "tracks.json"
-val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
-    .registerTypeAdapter(Uri::class.java, URIParser())
-    .create()
-val listType: Type = object : TypeToken<HashMap<String , TrackModel>>() {}.type
+
 class TrackStore(private val context: Context) : DataStore<TrackModel> {
+    private val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
+        .registerTypeAdapter(Uri::class.java, URIParser())
+        .create()
+    private val listType: Type = object : TypeToken<HashMap<String , TrackModel>>() {}.type
     // ID to model
     private var tracks = HashMap<String, TrackModel>()
 
