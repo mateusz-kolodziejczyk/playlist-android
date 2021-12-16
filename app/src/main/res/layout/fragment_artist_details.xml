@@ -40,10 +40,25 @@
                 app:layout_constraintTop_toTopOf="parent"
                 tools:text="Genres" />
             <Button
-                android:layout_width="20dp"
-                android:layout_height="50dp"
-
-                />
+                android:id="@+id/buttonGetTopTracks"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:stateListAnimator="@null"
+                android:text="@string/button_get_top_tracks"
+                android:textSize="16sp" />
+            <Button
+                android:id="@+id/buttonUpdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:stateListAnimator="@null"
+                android:text="@string/button_update"
+                android:textSize="16sp" />
 
         </LinearLayout>
     </ScrollView>
