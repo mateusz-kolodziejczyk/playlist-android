@@ -3,16 +3,16 @@
     <item
         android:id="@+id/playlistListFragment"
         android:enabled="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_baseline_queue_music_24"
         android:title="@string/bottom_nav_item1"/>
     <item
         android:id="@+id/artistListFragment"
         android:enabled="true"
-        android:icon="@mipmap/ic_launcher_round"
+        android:icon="@drawable/ic_baseline_person_24"
         android:title="@string/bottom_nav_item2"/>
     <item
         android:id="@+id/trackListFragment"
         android:enabled="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_baseline_audiotrack_24"
         android:title="@string/bottom_nav_item3"/>
 </menu>
