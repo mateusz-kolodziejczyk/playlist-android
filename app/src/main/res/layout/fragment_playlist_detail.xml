@@ -35,9 +35,15 @@
                 android:scrollbars="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
             <Button
-                android:layout_width="20dp"
-                android:layout_height="50dp"
-                />
+                android:id="@+id/buttonUpdate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:stateListAnimator="@null"
+                android:text="@string/button_update"
+                android:textSize="16sp" />
 
         </LinearLayout>
     </ScrollView>

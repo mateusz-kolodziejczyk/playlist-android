@@ -32,9 +32,9 @@ class ArtistStore(private val context: Context) : DataStore<ArtistModel> {
 
     }
     override fun update(obj: ArtistModel){
-        val playlistToUpdate = artists[obj.id]
+        val artistToUpdate = artists[obj.id]
         // If it finds the correct track by id, update it.
-        playlistToUpdate?.let{
+        artistToUpdate?.let{
             artists[obj.id] = obj
             serialize()
         }

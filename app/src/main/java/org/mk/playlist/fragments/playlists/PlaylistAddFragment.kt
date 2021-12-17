@@ -37,7 +37,7 @@ class PlaylistAddFragment : Fragment() {
             val playlistToAdd = PlaylistModel(
                 id = java.util.UUID.randomUUID(),
                 name = binding.playlistName.text.toString(),
-                trackIDs = LinkedHashSet(adapter.selectedTracks.map { track -> track.id })
+                trackIDs = adapter.selectedTracks
             )
             if (playlistToAdd.name.isEmpty()) {
                 Snackbar.make(currentView, R.string.error_no_playlist_name, Snackbar.LENGTH_LONG)

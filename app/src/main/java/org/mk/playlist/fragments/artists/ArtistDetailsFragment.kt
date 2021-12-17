@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.NavHostFragment
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import org.mk.playlist.databinding.FragmentArtistDetailsBinding
@@ -46,9 +47,15 @@ class ArtistDetailsFragment : Fragment() {
             }
             binding.buttonDelete.setOnClickListener {
                 app.artists.delete(artistModel)
-                parentFragmentManager.popBackStack()
+                navigateToList()
             }
         }
+    }
+
+    private fun navigateToList(){
+        val directions = ArtistDetailsFragmentDirections.actionArtistDetailsFragmentToArtistListFragment()
+        NavHostFragment.findNavController(this).navigate(directions)
+
     }
 
     companion object {

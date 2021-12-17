@@ -6,10 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.NavHostFragment
 import org.mk.playlist.databinding.FragmentTrackDetailBinding
-import org.mk.playlist.fragments.playlists.SharedViewModel
+import org.mk.playlist.fragments.playlists.TrackViewModel
 import org.mk.playlist.helpers.artistIDsToArtistString
 import org.mk.playlist.main.MainApp
 import org.mk.playlist.models.TrackModel
@@ -19,7 +18,7 @@ private const val ARG_TRACK = "track"
 class TrackDetailFragment : Fragment() {
     private var track: TrackModel? = null
     private lateinit var binding: FragmentTrackDetailBinding
-    private val model: SharedViewModel by activityViewModels()
+    private val model: TrackViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

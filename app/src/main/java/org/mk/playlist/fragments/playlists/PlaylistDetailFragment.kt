@@ -39,11 +39,15 @@ class PlaylistDetailFragment : Fragment() {
         model.getSelectedPlaylist().observe(viewLifecycleOwner, Observer<PlaylistModel> { playlist ->
             binding.playlistName.text = playlist.name
             val layoutManager = LinearLayoutManager(view.context)
-            val app = activity?.application as MainApp
 
             binding.playlistRecyclerView.layoutManager = layoutManager
             binding.playlistRecyclerView.adapter = TrackAdapter(trackIDsToTracks(ArrayList(playlist.trackIDs), app.tracks.findAll()), app.artists.findAll())
+            binding.buttonUpdate.setOnClickListener{
+                val directions = PlaylistDetailFragmentDirections.actionPlaylistDetailFragmentToPlaylistUpdateFragment()
+                NavHostFragment.findNavController(this).navigate(directions)
+            }
         })
+
     }
 
     companion object {

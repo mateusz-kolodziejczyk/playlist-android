@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import org.mk.playlist.models.PlaylistModel
 import org.mk.playlist.models.TrackModel
 
-class SharedViewModel : ViewModel() {
+class TrackViewModel : ViewModel() {
     private val selectedTrack = MutableLiveData<TrackModel>()
     fun selectTrack(track: TrackModel){
         selectedTrack.value = track

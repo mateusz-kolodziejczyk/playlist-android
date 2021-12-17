@@ -10,7 +10,7 @@ import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.mk.playlist.R
 import org.mk.playlist.databinding.FragmentListBinding
-import org.mk.playlist.fragments.playlists.SharedViewModel
+import org.mk.playlist.fragments.playlists.TrackViewModel
 import org.mk.playlist.main.MainApp
 import org.mk.playlist.models.TrackModel
 
@@ -19,7 +19,7 @@ import org.mk.playlist.adapters.*
 
 class TrackListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
-    private val model: SharedViewModel by navGraphViewModels(R.id.main_graph)
+    private val model: TrackViewModel by navGraphViewModels(R.id.main_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

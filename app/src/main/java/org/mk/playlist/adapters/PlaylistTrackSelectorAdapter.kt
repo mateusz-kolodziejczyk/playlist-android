@@ -13,13 +13,12 @@ import org.mk.playlist.models.TrackModel
 import timber.log.Timber.i
 import kotlin.collections.LinkedHashSet
 
-class PlaylistTrackSelectorAdapter constructor(private var tracks: List<TrackModel>,
-                                               private var artists: List<ArtistModel>,
-                                               private var playlistTracks: LinkedHashSet<TrackModel> = LinkedHashSet()
+class PlaylistTrackSelectorAdapter (private var tracks: List<TrackModel>,
+                                    private var artists: List<ArtistModel>,
+                                    private var playlistTrackIDs: LinkedHashSet<String> = LinkedHashSet()
 ) :
     RecyclerView.Adapter<PlaylistTrackSelectorAdapter.MainHolder>() {
-    private val originalList = tracks
-    val selectedTracks = LinkedHashSet<TrackModel>(playlistTracks)
+    val selectedTracks = playlistTrackIDs
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainHolder {
         val binding = CardTrackBinding
@@ -33,14 +32,13 @@ class PlaylistTrackSelectorAdapter constructor(private var tracks: List<TrackMod
     }
     override fun onBindViewHolder(holder: MainHolder, position: Int) {
         val track = tracks[holder.adapterPosition]
-        holder.bind(track, selectedTracks.contains(track))
+        holder.bind(track, selectedTracks.contains(track.id))
     }
     // Using inner class to access artists list
     inner class MainHolder(private val binding : CardTrackBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(track: TrackModel, isActivated: Boolean) {
             binding.root.isActivated = isActivated
-            //Picasso.get().load(placemark.image).resize(200,200).into(binding.imageIcon)
             binding.trackName.text = track.name
             val s = artistIDsToArtistString(track.artistIDs, artists)
             binding.artistName.text = s
@@ -54,10 +52,10 @@ class PlaylistTrackSelectorAdapter constructor(private var tracks: List<TrackMod
             }
             binding.root.setOnClickListener {
                 if (!isActivated){
-                    selectedTracks.add(track)
+                    selectedTracks.add(track.id)
                 }
                 else{
-                    selectedTracks.remove(track)
+                    selectedTracks.remove(track.id)
                 }
                 selectedTracks.forEach{
                     i("$it")

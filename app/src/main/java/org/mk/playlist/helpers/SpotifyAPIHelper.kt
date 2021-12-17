@@ -6,6 +6,7 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
+import com.google.gson.JsonObject
 import org.json.JSONObject
 import org.mk.playlist.main.MainApp
 import timber.log.Timber
@@ -54,13 +55,19 @@ fun createTokenRequest(clientID: String, clientSecret: String, app: MainApp) : S
     }
 }
 
-fun getArtistByID(artistID: String, accessToken: String) : StringRequest{
+// This function will both add an update an artist by overriding or creating a new one.
+fun getArtistByIDAndPut(artistID: String, app: MainApp, accessToken: String) : StringRequest{
     val APIRequestURL = "https://api.spotify.com/v1/artists/$artistID"
     return object : StringRequest(
         Method.GET, APIRequestURL,
         Response.Listener { response ->
             // Turn the response into a json object
             val artistJSON = JSONObject(response)
+
+            getArtistInfoFromJSON(artistJSON)?.let{
+                app.artists.add(it)
+
+            }
             Timber.i(artistJSON.getString("name"))
         }, Response.ErrorListener { Timber.i("OOPS") }) {
 
@@ -77,6 +84,7 @@ fun getArtistByID(artistID: String, accessToken: String) : StringRequest{
         }
     }
 }
+
 
 fun getArtistTopTracks(artistID: String, accessToken: String, app: MainApp) : JsonObjectRequest{
     val APIRequestURL = "https://api.spotify.com/v1/artists/$artistID/top-tracks?country=IE"
@@ -98,11 +106,12 @@ fun getArtistTopTracks(artistID: String, accessToken: String, app: MainApp) : Js
                     // Add all artist IDs to the song
                     for(j in 0 until artistsJSONArray.length()){
                         val artist = artistsJSONArray.getJSONObject(j)
-                        val id = artist.getString("id")
-                        val artistName = artist.getString("name")
 
-                        artistIDs.add(id)
-                        app.artists.add(ArtistModel(id=id, name=artistName))
+                        val artistToAdd = getArtistInfoFromJSON(artist)
+                        artistToAdd?.let {
+                            app.artists.add(it)
+                            artistIDs.add(it.id)
+                        }
                     }
                     app.tracks.add(TrackModel(id = trackID, name = trackName, url=spotifyURI.toUri(), artistIDs=artistIDs))
                 }
@@ -123,5 +132,39 @@ fun getArtistTopTracks(artistID: String, accessToken: String, app: MainApp) : Js
             return headers
         }
     }
+}
+
+fun searchRequest(accessToken: String) : JsonObjectRequest{
+    val APIRequestURL = "https://api.spotify.com/v1/artists/top-tracks?country=IE"
+    return object : JsonObjectRequest(
+        Method.GET, APIRequestURL, null,
+        Response.Listener{ response ->
+            // Process the JSON
+            try {
+
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }, Response.ErrorListener { e -> i(e) }) {
+
+        override fun getBodyContentType(): String {
+            return "application/json"
+        }
+
+        @Throws(AuthFailureError::class)
+        override fun getHeaders(): Map<String, String> {
+            // Add access token to header
+            val headers: MutableMap<String, String> = HashMap()
+            headers["Authorization"] = "Bearer $accessToken" // Header authorization parameter
+            return headers
+        }
+    }
+}
+
+fun getArtistInfoFromJSON(artistJSON: JSONObject) : ArtistModel?{
+    var artist : ArtistModel? = null
+    val id = artistJSON.getString("id")
+    val artistName = artistJSON.getString("name")
+    return artist
 }
 

@@ -28,6 +28,9 @@
         <action
             android:id="@+id/action_updateTrack"
             app:destination="@id/trackUpdateFragment" />
+        <action
+            android:id="@+id/action_trackDetailFragment_to_trackListFragment"
+            app:destination="@id/trackListFragment" />
     </fragment>
     <fragment
         android:id="@+id/trackUpdateFragment"
@@ -78,6 +81,9 @@
         <argument
             android:name="artist"
             app:argType="org.mk.playlist.models.ArtistModel" />
+        <action
+            android:id="@+id/action_artistDetailsFragment_to_artistListFragment"
+            app:destination="@id/artistListFragment" />
     </fragment>
     <fragment
         android:id="@+id/playlistListFragment"
@@ -99,12 +105,19 @@
         <action
             android:id="@+id/action_playlistDetailFragment_to_playlistUpdateFragment"
             app:destination="@id/playlistUpdateFragment" />
+        <action
+            android:id="@+id/action_playlistDetailFragment_to_playlistListFragment"
+            app:destination="@id/playlistListFragment" />
     </fragment>
     <fragment
         android:id="@+id/playlistUpdateFragment"
         android:name="org.mk.playlist.fragments.playlists.PlaylistUpdateFragment"
         android:label="fragment_playlist_update"
-        tools:layout="@layout/fragment_playlist_update" />
+        tools:layout="@layout/fragment_playlist_update" >
+        <action
+            android:id="@+id/action_playlistUpdateFragment_to_playlistListFragment"
+            app:destination="@id/playlistListFragment" />
+    </fragment>
     <fragment
         android:id="@+id/playlistAddFragment"
         android:name="org.mk.playlist.fragments.playlists.PlaylistAddFragment"

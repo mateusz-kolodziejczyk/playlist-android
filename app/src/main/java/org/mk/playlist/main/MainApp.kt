@@ -18,6 +18,8 @@ class MainApp : Application() {
     lateinit var playlists: PlaylistStore
     lateinit var artists: ArtistStore
     override fun onCreate() {
+        val addSampleData = false
+
         super.onCreate()
         Timber.plant(Timber.DebugTree())
         i("Playlist App started")
@@ -28,5 +30,10 @@ class MainApp : Application() {
         val queue = Volley.newRequestQueue(this)
         val postRequest = createTokenRequest(BuildConfig.SPOTIFY_CLIENT_ID, BuildConfig.SPOTIFY_CLIENT_SECRET, this)
         queue?.add(postRequest)
+
+        // Add sample data to the app.
+        if(addSampleData){
+
+        }
     }
 }

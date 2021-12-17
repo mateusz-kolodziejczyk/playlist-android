@@ -6,16 +6,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.navGraphViewModels
 import com.google.android.material.snackbar.Snackbar
 import org.mk.playlist.R
-import org.mk.playlist.activities.MainActivity
 import org.mk.playlist.databinding.FragmentTrackUpdateBinding
-import org.mk.playlist.fragments.playlists.SharedViewModel
+import org.mk.playlist.fragments.playlists.TrackViewModel
 import org.mk.playlist.main.MainApp
 import org.mk.playlist.models.TrackModel
 
@@ -24,7 +21,7 @@ private const val ARG_TRACK = "track"
 class TrackUpdateFragment : Fragment() {
     private var track: TrackModel? = null
     private lateinit var binding: FragmentTrackUpdateBinding
-    private val model: SharedViewModel by navGraphViewModels(R.id.main_graph)
+    private val model: TrackViewModel by navGraphViewModels(R.id.main_graph)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

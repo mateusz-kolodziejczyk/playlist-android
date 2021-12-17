@@ -6,16 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.net.toUri
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.navGraphViewModels
 import com.google.android.material.snackbar.Snackbar
 import org.mk.playlist.R
-import org.mk.playlist.activities.MainActivity
 import org.mk.playlist.databinding.FragmentTrackUpdateBinding
-import org.mk.playlist.fragments.playlists.SharedViewModel
 import org.mk.playlist.main.MainApp
 import org.mk.playlist.models.TrackModel
 

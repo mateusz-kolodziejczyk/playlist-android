@@ -1,11 +1,8 @@
 package org.mk.playlist.fragments.playlists
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.view.*
-import androidx.activity.result.ActivityResultLauncher
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment
@@ -13,17 +10,9 @@ import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import org.mk.playlist.R
 import org.mk.playlist.adapters.PlaylistAdapter
-import org.mk.playlist.adapters.TrackAdapter
 import org.mk.playlist.databinding.FragmentListBinding
-import org.mk.playlist.fragments.artists.ArtistListFragmentDirections
-import org.mk.playlist.fragments.playlists.PlaylistListFragmentDirections
-import org.mk.playlist.fragments.playlists.PlaylistViewModel
-import org.mk.playlist.fragments.playlists.SharedViewModel
-import org.mk.playlist.fragments.tracks.TrackListFragmentDirections
 import org.mk.playlist.main.MainApp
-import org.mk.playlist.models.ArtistModel
 import org.mk.playlist.models.PlaylistModel
-import org.mk.playlist.models.TrackModel
 
 class PlaylistListFragment : Fragment() {
     private lateinit var binding: FragmentListBinding
