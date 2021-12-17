@@ -10,6 +10,8 @@ import androidx.navigation.fragment.NavHostFragment
 import org.mk.playlist.databinding.FragmentTrackDetailBinding
 import org.mk.playlist.fragments.playlists.TrackViewModel
 import org.mk.playlist.helpers.artistIDsToArtistString
+import org.mk.playlist.helpers.getArtistByIDAndPut
+import org.mk.playlist.helpers.getTrackByIDAndPut
 import org.mk.playlist.main.MainApp
 import org.mk.playlist.models.TrackModel
 
@@ -27,8 +29,10 @@ class TrackDetailFragment : Fragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         binding = FragmentTrackDetailBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -38,22 +42,35 @@ class TrackDetailFragment : Fragment() {
         val app = activity?.application as MainApp
         track?.let { trackModel ->
             binding.trackName.text = trackModel.name
-            binding.artistName.text = artistIDsToArtistString(trackModel.artistIDs, app.artists.findAll())
+            binding.artistName.text =
+                artistIDsToArtistString(trackModel.artistIDs, app.artists.findAll())
             binding.url.text = trackModel.url.toString()
             binding.buttonUpdate.setOnClickListener {
-                val directions = TrackDetailFragmentDirections.actionUpdateTrack(trackModel)
-                NavHostFragment.findNavController(this).navigate(directions)
+                val updateRequest = getTrackByIDAndPut(trackModel.id, app, app.accessToken)
+                app.queue.add(updateRequest)
+            }
+            binding.buttonDelete.setOnClickListener {
+                app.tracks.delete(trackModel)
+                app.playlists.removeTrackFromAll(trackModel.id)
+                navigateToList()
             }
             model.selectTrack(trackModel)
         }
     }
 
+    private fun navigateToList() {
+        val directions = TrackDetailFragmentDirections.actionTrackDetailFragmentToTrackListFragment()
+        NavHostFragment.findNavController(this).navigate(directions)
+    }
+
+
     companion object {
-        @JvmStatic fun newInstance(track: TrackModel) =
-                TrackDetailFragment().apply {
-                    arguments = Bundle().apply {
-                        putParcelable(ARG_TRACK, track)
-                    }
+        @JvmStatic
+        fun newInstance(track: TrackModel) =
+            TrackDetailFragment().apply {
+                arguments = Bundle().apply {
+                    putParcelable(ARG_TRACK, track)
                 }
+            }
     }
 }

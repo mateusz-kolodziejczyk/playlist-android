@@ -40,5 +40,18 @@
             app:layout_constraintTop_toBottomOf="@id/trackName"
             tools:text="An Artist" />
 
+        <TextView
+            android:id="@+id/releaseYear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textAlignment="viewStart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.052"
+            app:layout_constraintStart_toEndOf="@id/trackName"
+            app:layout_constraintTop_toTopOf="@id/trackName"
+            tools:text="2021" />
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -47,7 +47,8 @@ class TrackStore(private val context: Context) : DataStore<TrackModel> {
     }
 
     override fun delete(obj: TrackModel) {
-        TODO("Not yet implemented")
+        tracks.remove(obj.id)
+        serialize()
     }
     private fun serialize() {
         val jsonString = gsonBuilder.toJson(tracks, listType)

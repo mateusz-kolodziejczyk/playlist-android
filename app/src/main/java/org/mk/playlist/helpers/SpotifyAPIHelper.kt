@@ -7,14 +7,15 @@ import com.android.volley.AuthFailureError
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
-import com.google.gson.JsonObject
 import org.json.JSONObject
 import org.mk.playlist.main.MainApp
-import timber.log.Timber
 import timber.log.Timber.i
 import org.json.JSONException
+import org.mk.playlist.adapters.ArtistSelectorAdapter
+import org.mk.playlist.adapters.TrackSelectorAdapter
 import org.mk.playlist.models.ArtistModel
 import org.mk.playlist.models.TrackModel
+import timber.log.Timber
 
 
 // A lot of the api code is from https://stackoverflow.com/questions/65509624/unable-to-obtain-a-spotify-access-token-by-creating-a-volley-post-request-in-kot
@@ -130,14 +131,79 @@ fun getArtistTopTracks(artistID: String, accessToken: String, app: MainApp): Jso
     }
 }
 
-fun searchRequest(accessToken: String): JsonObjectRequest {
-    val APIRequestURL = "https://api.spotify.com/v1/artists/top-tracks?country=IE"
+fun trackSearchRequest(
+    query: String,
+    adapter: TrackSelectorAdapter,
+    accessToken: String
+): JsonObjectRequest {
+
+    val APIRequestURL = "https://api.spotify.com/v1/search?q=${query}&type=track"
     return object : JsonObjectRequest(
         Method.GET, APIRequestURL, null,
         Response.Listener { response ->
             // Process the JSON
             try {
+                val newTracks = ArrayList<TrackModel>()
+                val trackJSONList = response.getJSONObject("tracks").getJSONArray("items")
+                // Remove all previous artists
+                adapter.associatedArtists = HashMap()
+                for (i in 0 until trackJSONList.length()) {
+                    // Get current json object
+                    val track = trackJSONList.getJSONObject(i)
+                    val artistsJSONArray = track.getJSONArray("artists")
+                    // Add all artists to the artist_store
+                    for (j in 0 until artistsJSONArray.length()) {
+                        val artist = artistsJSONArray.getJSONObject(j)
+                        val artistToAdd = getArtistInfoFromJSON(artist)
+                        artistToAdd?.let {
+                            adapter.associatedArtists[it.id] = it
+                        }
+                    }
+                    newTracks.add(getTrackInfoFromJSON(track))
+                }
+                adapter.displayedTracks = newTracks
+                adapter.notifyDataSetChanged()
+            } catch (e: JSONException) {
+                e.printStackTrace()
+            }
+        }, Response.ErrorListener { e -> i(e) }) {
 
+        override fun getBodyContentType(): String {
+            return "application/json"
+        }
+
+        @Throws(AuthFailureError::class)
+        override fun getHeaders(): Map<String, String> {
+            // Add access token to header
+            val headers: MutableMap<String, String> = HashMap()
+            headers["Authorization"] = "Bearer $accessToken" // Header authorization parameter
+            return headers
+        }
+    }
+}
+
+fun artistSearchRequest(
+    query: String,
+    adapter: ArtistSelectorAdapter,
+    accessToken: String
+): JsonObjectRequest {
+
+    val APIRequestURL = "https://api.spotify.com/v1/search?q=${query}&type=artist"
+    return object : JsonObjectRequest(
+        Method.GET, APIRequestURL, null,
+        Response.Listener { response ->
+            // Process the JSON
+            try {
+                val newArtists = ArrayList<ArtistModel>()
+                val artistJSONList = response.getJSONObject("artists").getJSONArray("items")
+                for(i in 0 until artistJSONList.length()){
+                    getArtistInfoFromJSON(artistJSONList.getJSONObject(i))?.let {
+                        newArtists.add(it)
+                    }
+                }
+                // Remove all previous artists
+                adapter.displayedArtists = newArtists
+                adapter.notifyDataSetChanged()
             } catch (e: JSONException) {
                 e.printStackTrace()
             }
@@ -196,12 +262,11 @@ fun getTrackInfoFromJSON(track: JSONObject): TrackModel {
             artistIDs.add(it.id)
         }
     }
-
     return TrackModel(
         id = trackID,
         name = trackName,
         url = spotifyURI.toUri(),
-        artistIDs = artistIDs
+        artistIDs = artistIDs,
     )
 }
 

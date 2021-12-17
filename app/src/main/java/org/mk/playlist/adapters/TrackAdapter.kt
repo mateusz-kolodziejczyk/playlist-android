@@ -71,6 +71,7 @@ class TrackAdapter(private var tracks: List<TrackModel>,
             binding.trackName.text = track.name
             val s = artistIDsToArtistString(track.artistIDs, artists)
             binding.artistName.text = s
+
             binding.root.setOnClickListener { onClickFunction(track) }
         }
     }

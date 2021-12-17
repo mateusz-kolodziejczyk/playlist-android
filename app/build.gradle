@@ -20,9 +20,14 @@ android {
         targetSdk 31
         versionCode 1
         versionName "1.0"
-
-        buildConfigField "String", "SPOTIFY_CLIENT_ID",localProperties['spotifyClientID']
-        buildConfigField "String", "SPOTIFY_CLIENT_SECRET",localProperties['spotifyClientSecret']
+        if(localProperties['spotifyClientID'] != null && localProperties['spotifyClientSecret'] != null){
+            buildConfigField "String", "SPOTIFY_CLIENT_ID",localProperties['spotifyClientID']
+            buildConfigField "String", "SPOTIFY_CLIENT_SECRET",localProperties['spotifyClientSecret']
+        }
+        else{
+            buildConfigField "String", "SPOTIFY_CLIENT_ID", "\"\""
+            buildConfigField "String", "SPOTIFY_CLIENT_SECRET", "\"\""
+        }
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

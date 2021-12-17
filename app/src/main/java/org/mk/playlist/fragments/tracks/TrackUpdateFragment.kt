@@ -48,7 +48,7 @@ class TrackUpdateFragment : Fragment() {
                     id = selectedTrack.id,
                     name = binding.trackName.text.toString(),
                     url = binding.url.text.toString().toUri(),
-                    artistIDs = selectedTrack.artistIDs
+                    artistIDs = selectedTrack.artistIDs,
                 )
                 if (trackToAdd.name.isEmpty()) {
                     Snackbar.make(it, R.string.error_no_track_name, Snackbar.LENGTH_LONG)

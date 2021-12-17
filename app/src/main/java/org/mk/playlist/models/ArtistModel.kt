@@ -5,7 +5,7 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class ArtistModel(var id: String = "",
+data class ArtistModel(override val id: String = "",
                        var name: String = "",
                        var url: Uri = Uri.EMPTY,
-                       var imageURL: Uri = Uri.EMPTY):Parcelable
+                       var imageURL: Uri = Uri.EMPTY):Parcelable, Identifiable<String>

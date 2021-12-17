@@ -57,6 +57,7 @@
                     android:stateListAnimator="@null"
                     android:text="@string/button_update"
                     android:textSize="16sp" />
+
             </LinearLayout>
         </ScrollView>
 

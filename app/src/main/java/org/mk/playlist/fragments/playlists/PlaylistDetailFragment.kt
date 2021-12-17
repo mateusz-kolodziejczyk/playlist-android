@@ -15,6 +15,7 @@ import org.mk.playlist.adapters.PlaylistAdapter
 import org.mk.playlist.adapters.TrackAdapter
 import org.mk.playlist.databinding.FragmentPlaylistDetailBinding
 import org.mk.playlist.databinding.FragmentTrackDetailBinding
+import org.mk.playlist.fragments.artists.ArtistDetailsFragmentDirections
 import org.mk.playlist.fragments.tracks.TrackDetailFragment
 import org.mk.playlist.fragments.tracks.TrackDetailFragmentDirections
 import org.mk.playlist.helpers.artistIDsToArtistString
@@ -46,10 +47,17 @@ class PlaylistDetailFragment : Fragment() {
                 val directions = PlaylistDetailFragmentDirections.actionPlaylistDetailFragmentToPlaylistUpdateFragment()
                 NavHostFragment.findNavController(this).navigate(directions)
             }
+            binding.buttonDelete.setOnClickListener{
+                app.playlists.delete(playlist)
+                navigateToList()
+            }
         })
 
     }
-
+    private fun navigateToList() {
+        val directions = PlaylistDetailFragmentDirections.actionPlaylistDetailFragmentToPlaylistListFragment()
+        NavHostFragment.findNavController(this).navigate(directions)
+    }
     companion object {
         @JvmStatic fun newInstance() =
             PlaylistDetailFragment()

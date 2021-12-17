@@ -21,4 +21,9 @@
     <string name="button_delete">Delete</string>
     <string name="artist_image">Artist Image</string>
     <string name="update_all">Update All</string>
+    <string name="button_search">Search</string>
+    <string name="error_no_track_selected">Please Select a Track to Add</string>
+    <string name="button_login">Login</string>
+    <string name="error_no_artist_selected">Please Select an Artist</string>
+    <string name="button_start">Start</string>
 </resources>

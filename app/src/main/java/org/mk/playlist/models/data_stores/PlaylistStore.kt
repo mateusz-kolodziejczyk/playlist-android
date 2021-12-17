@@ -45,8 +45,16 @@ class PlaylistStore(private val context: Context) : DataStore<PlaylistModel> {
     }
 
     override fun delete(obj: PlaylistModel) {
-        TODO("Not yet implemented")
+        playlists.remove(obj.id)
+        serialize()
     }
+
+    fun removeTrackFromAll(id: String){
+        for (playlist in playlists.values){
+            playlist.trackIDs.remove(id)
+        }
+    }
+
     private fun serialize() {
         val jsonString = gsonBuilder.toJson(playlists, listType)
         write(context, PLAYLIST_JSON_FILE, jsonString)

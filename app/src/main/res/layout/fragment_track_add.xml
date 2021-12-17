@@ -1,14 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragments.tracks.TrackAddFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <EditText
+        android:id="@+id/trackName"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
+        android:layout_height="45dp"
+        android:layout_margin="8dp"
+        android:autofillHints=""
+        android:hint="@string/hint_trackName"
+        android:inputType="text"
+        android:maxLines="1"
+        android:padding="8dp"
+        android:layout_marginBottom="30dp"
+        android:textColor="@color/black"
+        android:textSize="14sp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:imeOptions="actionDone"
+        />
+    <Button
+        android:id="@+id/buttonSearch"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:stateListAnimator="@null"
+        android:text="@string/button_search"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/trackName"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/trackRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:scrollbars="vertical"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:layout_constraintTop_toBottomOf="@id/buttonSearch"
+        app:layout_constraintBottom_toTopOf="@id/btnAdd"/>
+    <Button
+        android:id="@+id/btnAdd"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:stateListAnimator="@null"
+        android:text="@string/button_add"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/trackRecyclerView"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

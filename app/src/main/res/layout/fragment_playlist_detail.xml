@@ -31,7 +31,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/playlistRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="300dp"
                 android:scrollbars="vertical"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
             <Button
@@ -43,6 +43,17 @@
                 android:paddingBottom="8dp"
                 android:stateListAnimator="@null"
                 android:text="@string/button_update"
+                android:textSize="16sp" />
+            <Button
+                android:id="@+id/buttonDelete"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="16dp"
+                android:paddingTop="8dp"
+                android:paddingBottom="8dp"
+                android:stateListAnimator="@null"
+                android:backgroundTint="@color/delete"
+                android:text="@string/button_delete"
                 android:textSize="16sp" />
 
         </LinearLayout>

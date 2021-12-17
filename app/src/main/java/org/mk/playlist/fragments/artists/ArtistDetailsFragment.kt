@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.NavHostFragment
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
+import com.squareup.picasso.Picasso
 import org.mk.playlist.databinding.FragmentArtistDetailsBinding
 import org.mk.playlist.databinding.FragmentTrackDetailBinding
 import org.mk.playlist.helpers.artistIDsToArtistString
@@ -39,6 +40,7 @@ class ArtistDetailsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         artist?.let { artistModel ->
             binding.artistName.text = artistModel.name
+            Picasso.get().load(artistModel.imageURL).resize(200,200).into(binding.artistImage)
             // Button will add an api request to spotify to retrieve the top tracks from the artist.
             val app = activity?.application as MainApp
             // Updating artist will get most recent data from spotify including image.
