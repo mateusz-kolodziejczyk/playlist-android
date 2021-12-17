@@ -1,6 +1,7 @@
 package org.mk.playlist.models.data_stores
 
 import android.content.Context
+import android.net.Uri
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -15,7 +16,9 @@ import kotlin.collections.HashMap
 private const val ARTIST_JSON_FILE = "artist.json"
 
 class ArtistStore(private val context: Context) : DataStore<ArtistModel> {
-    private val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting().create()
+    private val gsonBuilder: Gson = GsonBuilder().setPrettyPrinting()
+        .registerTypeAdapter(Uri::class.java, URIParser())
+        .create()
     private val listType: Type = object : TypeToken<HashMap<String , ArtistModel>>() {}.type
     private var artists: HashMap<String, ArtistModel> = HashMap()
 
@@ -40,6 +43,17 @@ class ArtistStore(private val context: Context) : DataStore<ArtistModel> {
         }
     }
     override fun add(obj: ArtistModel){
+        val existingArtist = artists[obj.id]
+        existingArtist?.let {
+            // If the new artist has no image, set it to the existing image url
+            if(obj.imageURL == Uri.EMPTY){
+                obj.imageURL = it.imageURL
+            }
+            // Same with the url
+            if(obj.url == Uri.EMPTY){
+                obj.url = it.url
+            }
+        }
         artists[obj.id] = obj
         serialize()
     }
@@ -47,6 +61,10 @@ class ArtistStore(private val context: Context) : DataStore<ArtistModel> {
     override fun delete(obj: ArtistModel) {
         artists.remove(obj.id)
         serialize()
+    }
+
+    fun findOne(obj: ArtistModel): ArtistModel?{
+        return artists[obj.id]
     }
 
     private fun serialize() {

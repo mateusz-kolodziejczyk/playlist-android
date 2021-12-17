@@ -2,6 +2,7 @@ package org.mk.playlist.main
 
 import android.app.Application
 import android.media.session.MediaController
+import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import org.mk.playlist.BuildConfig
 import org.mk.playlist.helpers.createTokenRequest
@@ -17,6 +18,7 @@ class MainApp : Application() {
     lateinit var tracks: TrackStore
     lateinit var playlists: PlaylistStore
     lateinit var artists: ArtistStore
+    lateinit var queue: RequestQueue
     override fun onCreate() {
         val addSampleData = false
 
@@ -27,7 +29,7 @@ class MainApp : Application() {
         playlists = PlaylistStore(applicationContext)
         artists = ArtistStore(applicationContext)
         // App gets a new spotify access token each time it launches
-        val queue = Volley.newRequestQueue(this)
+        queue = Volley.newRequestQueue(this)
         val postRequest = createTokenRequest(BuildConfig.SPOTIFY_CLIENT_ID, BuildConfig.SPOTIFY_CLIENT_SECRET, this)
         queue?.add(postRequest)
 

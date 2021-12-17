@@ -3,6 +3,8 @@ package org.mk.playlist.fragments.artists
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.activity.result.ActivityResultLauncher
@@ -16,6 +18,7 @@ import org.mk.playlist.adapters.ArtistAdapter
 import org.mk.playlist.adapters.TrackAdapter
 import org.mk.playlist.databinding.FragmentListBinding
 import org.mk.playlist.fragments.tracks.TrackListFragmentDirections
+import org.mk.playlist.helpers.getArtistByIDAndPut
 import org.mk.playlist.main.MainApp
 import org.mk.playlist.models.ArtistModel
 import org.mk.playlist.models.TrackModel
@@ -83,7 +86,20 @@ class ArtistListFragment : Fragment() {
             R.id.item_add -> {
                 navigateToArtistAdd()
             }
+            R.id.item_updateAll -> {
+                val app = activity?.application as MainApp
+                // Iterate through each artist and start an api request for each one. Add a 100 milisecond delay to avoid
+                // Getting rate limited
+                for(i in 0 until app.artists.findAll().size) {
+                    val artist = app.artists.findAll()[i]
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        val updateRequest = getArtistByIDAndPut(artist.id, app, app.accessToken)
+                        app.queue.add(updateRequest)
+                    }, 100 * (i.toLong() + 1))
+                }
+            }
         }
+
         return super.onOptionsItemSelected(item)
     }
 

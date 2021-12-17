@@ -6,6 +6,7 @@ import android.widget.Filter
 import android.widget.Filter.FilterResults
 import android.widget.Filterable
 import androidx.recyclerview.widget.RecyclerView
+import com.squareup.picasso.Picasso
 import org.mk.playlist.databinding.CardArtistBinding
 
 import org.mk.playlist.databinding.CardTrackBinding
@@ -70,6 +71,8 @@ class ArtistAdapter constructor(private var artists: List<ArtistModel>,
         fun bind(artist: ArtistModel, clickHandler: (ArtistModel) -> Unit) {
             binding.root.setOnClickListener { clickHandler(artist) }
             binding.artistName.text = artist.name
+            Picasso.get().load(artist.imageURL).resize(200,200).into(binding.image)
+
         }
     }
 

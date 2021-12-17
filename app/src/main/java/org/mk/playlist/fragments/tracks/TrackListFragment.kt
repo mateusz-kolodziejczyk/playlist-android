@@ -2,12 +2,15 @@ package org.mk.playlist.fragments.tracks
 
 import android.content.Context
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.view.*
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.android.volley.toolbox.StringRequest
 import org.mk.playlist.R
 import org.mk.playlist.databinding.FragmentListBinding
 import org.mk.playlist.fragments.playlists.TrackViewModel
@@ -15,6 +18,8 @@ import org.mk.playlist.main.MainApp
 import org.mk.playlist.models.TrackModel
 
 import org.mk.playlist.adapters.*
+import org.mk.playlist.helpers.getArtistByIDAndPut
+import org.mk.playlist.helpers.getTrackByIDAndPut
 
 
 class TrackListFragment : Fragment() {
@@ -77,9 +82,23 @@ class TrackListFragment : Fragment() {
             R.id.item_add -> {
                 navigateToTrackAdd()
             }
+            R.id.item_updateAll -> {
+                val app = activity?.application as MainApp
+                // Iterate through each track and start an api request for each one.
+                // Add a 100 milisecond delay to avoid getting rate limited
+                for(i in 0 until app.tracks.findAll().size) {
+                    val track = app.tracks.findAll()[i]
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        val updateRequest = getTrackByIDAndPut(track.id, app, app.accessToken)
+                        app.queue.add(updateRequest)
+                    }, 100 * (i.toLong() + 1))
+                }
+            }
         }
         return super.onOptionsItemSelected(item)
     }
+
+
 
     private val onTrackClick = { track: TrackModel ->
         model.selectTrack(track)

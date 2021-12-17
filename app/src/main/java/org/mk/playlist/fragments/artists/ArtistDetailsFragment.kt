@@ -11,6 +11,7 @@ import com.android.volley.toolbox.Volley
 import org.mk.playlist.databinding.FragmentArtistDetailsBinding
 import org.mk.playlist.databinding.FragmentTrackDetailBinding
 import org.mk.playlist.helpers.artistIDsToArtistString
+import org.mk.playlist.helpers.getArtistByIDAndPut
 import org.mk.playlist.helpers.getArtistTopTracks
 import org.mk.playlist.main.MainApp
 import org.mk.playlist.models.ArtistModel
@@ -39,11 +40,15 @@ class ArtistDetailsFragment : Fragment() {
         artist?.let { artistModel ->
             binding.artistName.text = artistModel.name
             // Button will add an api request to spotify to retrieve the top tracks from the artist.
-            val queue = Volley.newRequestQueue(activity?.applicationContext)
             val app = activity?.application as MainApp
+            // Updating artist will get most recent data from spotify including image.
+            binding.buttonUpdate.setOnClickListener {
+                val updateArtistRequest = getArtistByIDAndPut(artistModel.id, app, app.accessToken)
+                app.queue.add(updateArtistRequest)
+            }
             binding.buttonGetTopTracks.setOnClickListener {
                 val getTopTracksRequest = getArtistTopTracks(artistModel.id, app.accessToken, app)
-                queue.add(getTopTracksRequest)
+                app.queue.add(getTopTracksRequest)
             }
             binding.buttonDelete.setOnClickListener {
                 app.artists.delete(artistModel)
