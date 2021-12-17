@@ -44,6 +44,10 @@ class ArtistDetailsFragment : Fragment() {
                 val getTopTracksRequest = getArtistTopTracks(artistModel.id, app.accessToken, app)
                 queue.add(getTopTracksRequest)
             }
+            binding.buttonDelete.setOnClickListener {
+                app.artists.delete(artistModel)
+                parentFragmentManager.popBackStack()
+            }
         }
     }
 

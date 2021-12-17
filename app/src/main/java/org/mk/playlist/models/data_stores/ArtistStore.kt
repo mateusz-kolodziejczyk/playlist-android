@@ -44,6 +44,11 @@ class ArtistStore(private val context: Context) : DataStore<ArtistModel> {
         serialize()
     }
 
+    override fun delete(obj: ArtistModel) {
+        artists.remove(obj.id)
+        serialize()
+    }
+
     private fun serialize() {
         val jsonString = gsonBuilder.toJson(artists, listType)
         write(context, ARTIST_JSON_FILE, jsonString)

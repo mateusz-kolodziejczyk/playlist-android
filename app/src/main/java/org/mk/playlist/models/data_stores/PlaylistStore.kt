@@ -44,11 +44,13 @@ class PlaylistStore(private val context: Context) : DataStore<PlaylistModel> {
         serialize()
     }
 
+    override fun delete(obj: PlaylistModel) {
+        TODO("Not yet implemented")
+    }
     private fun serialize() {
         val jsonString = gsonBuilder.toJson(playlists, listType)
         write(context, PLAYLIST_JSON_FILE, jsonString)
     }
-
     private fun deserialize() {
         val jsonString = read(context, PLAYLIST_JSON_FILE)
         playlists = gsonBuilder.fromJson(jsonString, listType)

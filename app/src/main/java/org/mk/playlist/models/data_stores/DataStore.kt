@@ -5,4 +5,5 @@ interface DataStore<T> {
     fun create(obj: T)
     fun update(obj: T)
     fun add(obj: T)
+    fun delete(obj: T)
 }

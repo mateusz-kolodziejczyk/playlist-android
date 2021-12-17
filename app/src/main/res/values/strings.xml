@@ -18,4 +18,5 @@
     <string name="error_no_playlist_name">Please enter a name</string>
     <string name="hint_playlistName">Enter Playlist Name</string>
     <string name="hint_artistName">Enter Artist Name</string>
+    <string name="button_delete">Delete</string>
 </resources>
