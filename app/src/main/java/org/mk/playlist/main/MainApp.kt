@@ -21,7 +21,11 @@ class MainApp : Application() {
     lateinit var artists: ArtistStore
     lateinit var queue: RequestQueue
     override fun onCreate() {
-        val addSampleData = BuildConfig.SPOTIFY_CLIENT_ID.isEmpty()
+        var addSampleData = true
+        // Dont add sample data if both arent empty.
+        if(BuildConfig.SPOTIFY_CLIENT_ID.isNotEmpty() && BuildConfig.SPOTIFY_CLIENT_SECRET.isNotEmpty()){
+            addSampleData = false
+        }
 
         super.onCreate()
         Timber.plant(Timber.DebugTree())
